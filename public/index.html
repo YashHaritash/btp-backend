@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Socket.io Client Test</title>
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body>
+    <h1>Socket.io Client Test</h1>
+    <button id="joinBtn">Join Session</button>
+
+    <script>
+      // Connect to the socket.io server
+      const socket = io("http://localhost:3000");
+
+      // Log when connected
+      socket.on("connect", () => {
+        console.log("Successfully connected to the server!");
+      });
+
+      // Log when disconnected
+      socket.on("disconnect", () => {
+        console.log("Disconnected from the server");
+      });
+
+      // Emit 'joinSession' event when the button is clicked
+      document.getElementById("joinBtn").addEventListener("click", () => {
+        socket.emit("joinSession", { sessionId: "12345" });
+        console.log("Join session event emitted");
+      });
+
+      // Listen for 'userJoined' event from the server
+      socket.on("userJoined", (data) => {
+        console.log("User joined the session:", data);
+      });
+    </script>
+  </body>
+</html>
